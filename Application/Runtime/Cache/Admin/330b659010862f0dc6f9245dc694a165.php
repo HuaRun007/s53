@@ -17,7 +17,6 @@
   <div class="body-content">
     <form method="post" class="form-x" action="<?php echo U('update');?>">        
       <input type="hidden" name="id" value="<?php echo ($data[0]["id"]); ?>">
-      <?php echo ($data[0]["id"]); ?>
       <div class="form-group">
         <div class="label">
           <label>分类标题：</label>
