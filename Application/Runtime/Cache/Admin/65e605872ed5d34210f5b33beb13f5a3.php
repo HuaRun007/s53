@@ -1,102 +1,55 @@
 <?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
-<html lang="cn">
+<html lang="zh-cn">
 <head>
-    <meta charset="UTF-8">
-    <title><?php echo ($title); ?></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title>网站信息</title>  
+    <link rel="stylesheet" href="/book/Public/css/pintuer.css">
+    <link rel="stylesheet" href="/book/Public/css/admin.css">
     <link rel="stylesheet" href="/book/Public/css/bootstrap.min.css">
     <link rel="stylesheet" href="/book/Public/my.css">
+    <script src="/book/Public/js/jquery.js"></script>
+    <script src="/book/Public/js/pintuer.js"></script>  
 </head>
 <body>
+<div class="panel admin-panel">
+    <div class="panel-head"><strong><span class="icon-pencil-square-o"></span> <?php echo ($title); ?></strong></div>
     <div class="container">
-        <h1><?php echo ($title); ?></h1>
-        <div class="center-block mt20">
-            <a href="<?php echo U('index');?>" class="btn btn-primary">首页</a>
-            <button  class="btn btn-success" data-toggle="modal" data-target="#myModal">添加</button>
-        </div>
-        <hr>
-        
-        <table class="table table-hover mt20 text-center">
+        <table class="table table-hover mt20 table-bordered table-hover">
             <tr>
-                <th class="text-center">ID</th>
-                <th class="text-center">姓名</th>
-                <th class="text-center">性别</th>
-                <th class="text-center">等级</th>
-                <th class="text-center">操作</th>
+                <th>Id</th>
+                <th>用户名</th>
+                <th>性别</th>
+                <th>手机号</th>
+                <th>邮箱</th>
+                <th>等级</th>
+                <th>添加时间</th>
+                <th>登录时间</th>
+                <th>状态</th>
+                <th>操作</th>
             </tr>
-            <?php if(is_array($data)): $k = 0; $__LIST__ = $data;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($k % 2 );++$k;?><tr>
-                <td><?php echo ($v["id"]); ?></td>
-                <td><?php echo ($v["username"]); ?></td>
-                <td><?php echo ($v["sex"]); ?></td>
-                <td class="col-md-3">
-                    <?php if($v["state"] == 0): ?>BOSS
-                    <?php elseif($v["state"] == 1): ?>技术人员
-                    <?php else: ?>普通用户<?php endif; ?>
-                </td>
-                <td class="col-md-2">
-                    <a href="<?php echo U('edit',array('id'=>$v['id']));?>" class="btn btn-primary">编辑</a>
-                    <a href="<?php echo U('del',array('id'=>$v['id']));?>" class="btn btn-danger">删除</a>
-                </td>
-            </tr><?php endforeach; endif; else: echo "" ;endif; ?>
+            <?php if(is_array($data)): foreach($data as $key=>$val): ?><tr>
+                <td><?php echo ($val["id"]); ?></td>
+                <td><?php echo ($val["username"]); ?></td>
+                <td><?php if($val["level"] == '0'): ?>女
+                    <?php elseif($val["sex"] == '1' ): ?>男
+                    <?php else: ?>保密<?php endif; ?></td>
+                <td><?php echo ($val["phone"]); ?></td>
+                <td><?php echo ($val["email"]); ?></td>
+                <td><?php if($val["level"] == '0'): ?>超级管理员
+                    <?php else: ?>技术人员<?php endif; ?></td>
+                <td><?php echo ($val["addtime"]); ?></td>
+                <td><?php echo ($val["logtime"]); ?></td>
+                <td><?php if($val["level"] == '0'): ?>正常
+                    <?php else: ?>禁用<?php endif; ?></td>
+                <td><button class="btn btn-danger">禁用</button></td>
+            </tr><?php endforeach; endif; ?>
         </table>
-        
-    </div><!--END container-->
-
-    <div class="modal fade" id="myModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">添加用户</h4>
-      </div>
-      <div class="modal-body">
-        <table class="table">
-            <div class="form-group">
-            <form action="<?php echo U('insert');?>" method="post">
-                <tr>
-                    <th>用户名:</th>
-                <td><input type="text" class="form-control" aria-describedby="sizing-addon1" name="username" placeholder="5-50个字符"></td>
-                </tr>
-                <tr>
-                    <th>密码:</th>
-                <td><input type="password" class="form-control" aria-describedby="sizing-addon1" name="password" placeholder="8-32个字符"></td>
-                </tr>
-                <tr>
-                    <th>邮箱地址:</th>
-                <td><input type="email" class="form-control" aria-describedby="sizing-addon1" name="email" placeholder="输入邮箱地址"></td>
-                </tr>
-                <tr>
-                    <th>性别:</th>
-                    <td>
-                        <input type="radio" name="sex" value="1">男
-                        <input type="radio" name="sex" value="0" checked>女
-                        <input type="radio" name="sex" value="2" >保密</td>
-                </tr>
-                <tr>
-                    <th>电话号码:</th>
-
-                <td><input type="text" class="form-control" aria-describedby="sizing-addon1"  name="phone" placeholder="输入电话号码"></td>
-                </tr>
-                <tr>
-                    <td>
-                        <img tyle='cursor:pointer;width:60px;height:27px;' title='看不清楚?换一张' src="<?php echo U('Public/verify');?>" name='verifyImg' onclick="this.src='<?php echo U('Public/verify');?>'">
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" aria-describedby="sizing-addon1">
-                    </td>
-                </tr>
-            </div>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-        <button type="submit" class="btn btn-primary">添加</button>
-          </form>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-    <script src="/book/Public/js/jquery.min.js"></script>
-    <script src="/book/Public/js/bootstrap.min.js"></script>
+    </div>
+</div>
+<script src="/book/Public/js/jquery.min.js"></script>
+<script src="/book/Public/js/bootstrap.min.js"></script>
 </body>
 </html>
