@@ -5,6 +5,8 @@
     <title>Document</title>
 </head>
 <body>
-    <?php echo ($content); ?>
+        <h1>TP演示 </h1>
+
+    <?php echo date('Y-m-d H:i:s');?>
 </body>
 </html>
